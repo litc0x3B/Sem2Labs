@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/media/sf_my_docs/Projects/labs/sem2/lab2KDevelop/build",
+  "command": "/usr/bin/c++ -DGTEST_LINKED_AS_SHARED_LIBRARY=1 -I/media/sf_my_docs/Projects/labs/sem2/lab2KDevelop/include -I/media/sf_my_docs/Projects/labs/sem2/lab2KDevelop/tests -g -o CMakeFiles/tests.dir/src/tests.cpp.o -c /media/sf_my_docs/Projects/labs/sem2/lab2KDevelop/src/tests.cpp",
+  "file": "/media/sf_my_docs/Projects/labs/sem2/lab2KDevelop/src/tests.cpp"
+}
+]
