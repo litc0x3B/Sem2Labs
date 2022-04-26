@@ -222,7 +222,7 @@ TEST(LinkedList, InsertFirst)
 TEST(LinkedList, Insert)
 {
     int arr[] = {4544, 798634, 78988, 454};
-    int answer[] = {4544, 798634, 11, 78988, 454};
+    int answer[] = {4544, 798634, 10, 78988, 454};
 
     LinkedList<int> list(arr, ARRAY_SIZE(arr, int));
     list.InsertAt(10, 2);

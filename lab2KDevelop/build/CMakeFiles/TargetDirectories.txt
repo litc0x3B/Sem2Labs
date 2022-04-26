@@ -1,7 +1,0 @@
-/media/sf_my_docs/Projects/labs/sem2/lab2KDevelop/build/CMakeFiles/tests.dir
-/media/sf_my_docs/Projects/labs/sem2/lab2KDevelop/build/CMakeFiles/edit_cache.dir
-/media/sf_my_docs/Projects/labs/sem2/lab2KDevelop/build/CMakeFiles/rebuild_cache.dir
-/media/sf_my_docs/Projects/labs/sem2/lab2KDevelop/build/CMakeFiles/list_install_components.dir
-/media/sf_my_docs/Projects/labs/sem2/lab2KDevelop/build/CMakeFiles/install.dir
-/media/sf_my_docs/Projects/labs/sem2/lab2KDevelop/build/CMakeFiles/install/local.dir
-/media/sf_my_docs/Projects/labs/sem2/lab2KDevelop/build/CMakeFiles/install/strip.dir

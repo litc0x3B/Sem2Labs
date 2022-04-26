@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 
-project(lab2kdevelop)
+project(lab2)
 
 # Locate GTest
 find_package(GTest REQUIRED)
