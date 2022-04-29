@@ -27,12 +27,13 @@ private:
     int size = 0;
 
     void InitFirstNode(T item);
-    Node<T> *GetNode(int index);
+    Node<T> *GetNode(int index) const;
 
 public:
     LinkedList();
     LinkedList(const T *items, int size);
     LinkedList(const LinkedList<T> &list);
+    LinkedList(const LinkedList<T> &list, int startIndex, int endIndex);
     ~LinkedList();
 
     int GetSize() const;
@@ -41,12 +42,12 @@ public:
     void Prepend(T item);
     void PopBack();
     void PopFront();
+    void Delete(int index);
 
-    T &operator[](int index);
+    T &operator[](int index) const;
     LinkedList<T> &operator=(const LinkedList<T> &list);
     LinkedList<T> operator+(const LinkedList<T> &list) const;
-    LinkedList<T> operator+=(const LinkedList<T> &list) const;
-
+    LinkedList<T> operator+=(const LinkedList<T> &list);
 
     void InsertAt(T item, int index);
 };
@@ -62,7 +63,7 @@ void LinkedList<T>::InitFirstNode(T item)
 }
 
 template <typename T>
-Node<T> *LinkedList<T>::GetNode(int index)
+Node<T> *LinkedList<T>::GetNode(int index) const
 {
     if (index >= size || index < 0)
     {
@@ -115,6 +116,31 @@ LinkedList<T>::LinkedList(const LinkedList<T> &list)
 }
 
 template <typename T>
+LinkedList<T>::LinkedList(const LinkedList<T> &list, int startIndex, int endIndex)
+{
+
+    if (startIndex < 0 || startIndex >= list.size || endIndex < startIndex)
+    {
+        throw std::out_of_range("invalid startIndex");
+    }
+
+    Node<T> *current = list.GetNode(startIndex);
+
+    if (endIndex < 0 || endIndex >= list.size )
+    {
+        throw std::out_of_range("invalid endIndex");
+    }
+
+
+    for (int i = startIndex; i <= endIndex; i++)
+    {
+        Append(current->value);
+        current = current->next;
+    }
+
+}
+
+template <typename T>
 void LinkedList<T>::Append(T item)
 {
     if (head == nullptr)
@@ -153,7 +179,7 @@ void LinkedList<T>::PopBack()
 {
     if (tail == nullptr)
     {
-        return;
+        throw std::runtime_error("calling PopBack() in LinkedList with zero elements");
     }
 
     if (tail->prev == nullptr)
@@ -177,7 +203,7 @@ void LinkedList<T>::PopFront()
 {
     if (head == nullptr)
     {
-        return;
+        throw std::runtime_error("calling PopFront() in LinkedList with zero elements");
     }
 
     if (head->next == nullptr)
@@ -197,7 +223,34 @@ void LinkedList<T>::PopFront()
 }
 
 template <typename T>
-T &LinkedList<T>::operator[](int index)
+void LinkedList<T>::Delete(int index)
+{
+    if (index < 0 || index >= size)
+    {
+        throw std::out_of_range("index is out of range");
+    }
+
+    if (index == size - 1)
+    {
+        PopBack();
+        return;
+    }
+    else if(index == 0)
+    {
+        PopFront();
+        return;
+    }
+
+    Node<T> *node = GetNode(index);
+    node->next->prev = node->prev;
+    node->prev->next = node->next;
+    size--;
+
+    delete node;
+}
+
+template <typename T>
+T &LinkedList<T>::operator[](int index) const
 {
     return GetNode(index)->value;
 }
@@ -246,19 +299,26 @@ int LinkedList<T>::GetSize() const
     return size;
 }
 
+
 template <typename T>
 LinkedList<T> LinkedList<T>::operator+(const LinkedList<T> &list) const
 {
     LinkedList<T> newList = (*this);
+    newList += list;
+    return newList;
+}
 
+template <typename T>
+LinkedList<T> LinkedList<T>::operator+=(const LinkedList<T> &list)
+{
     Node<T> *curFromList = list.head;
     for (int i = 0; i < list.size; i++)
     {
-        newList.Append(curFromList->value);
+        Append(curFromList->value);
         curFromList = curFromList->next;
     }
 
-    return newList;
+    return (*this);
 }
 
 template <typename T>

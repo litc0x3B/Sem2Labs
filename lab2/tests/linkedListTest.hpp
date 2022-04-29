@@ -1,6 +1,7 @@
 #pragma once
 #include "TestHelper.hpp"
 #include "linkedList.hpp"
+#include <gtest/gtest.h>
 
 TEST(LinkedList, DefaultConstructorAndAppend) {
     LinkedList<int> list;
@@ -80,7 +81,7 @@ TEST(LinkedList, Assignment1) {
 
     containersEqual(list1, list2, list1.GetSize());
     EXPECT_EQ(list1.GetSize(), list2.GetSize());
-  }
+}
 
 TEST(LinkedList, Assignment2) {
     int arr1[] = {4544, 798634, 78988, 454};
@@ -183,14 +184,14 @@ TEST(LinkedList, PopFront2) {
 
 TEST(LinkedList, PopBack3) {
     LinkedList<int> list;
-    list.PopBack();
+    EXPECT_ANY_THROW(list.PopBack());
 
     EXPECT_EQ(list.GetSize(), 0);
 }
 
 TEST(LinkedList, PopFront3) {
     LinkedList<int> list;
-    list.PopFront();
+    EXPECT_ANY_THROW(list.PopFront());
 
     EXPECT_EQ(list.GetSize(), 0);
 }
@@ -240,4 +241,91 @@ TEST(LinkedList, InsertZero)
 
     containersEqual(answer, list, ARRAY_SIZE(answer, int));
     EXPECT_EQ(list.GetSize(), ARRAY_SIZE(answer, int));
+}
+
+TEST(LinkedList, SubList1)
+{
+    int arr[] = {8, 556, 156, 57, 0};
+    int answer[] = {8, 556, 156};
+
+    LinkedList<int> list1(arr, ARRAY_SIZE(arr, int));
+    LinkedList<int> list2(list1, 0, 2);
+
+    containersEqual(answer, list2, ARRAY_SIZE(answer, int));
+    EXPECT_EQ(list2.GetSize(), ARRAY_SIZE(answer, int));
+}
+
+TEST(LinkedList, SubList2)
+{
+    int arr[] = {8, 556, 156, 57, 0, 7, 9, 20};
+    int answer[] = {156, 57, 0, 7};
+
+    LinkedList<int> list1(arr, ARRAY_SIZE(arr, int));
+    LinkedList<int> list2(list1, 2, 5);
+
+    containersEqual(answer, list2, ARRAY_SIZE(answer, int));
+    EXPECT_EQ(list2.GetSize(), ARRAY_SIZE(answer, int));
+}
+
+TEST(LinkedList, SubList3)
+{
+    int arr[] = {8, 556, 156, 57, 0, 7, 9, 20};
+    int answer[] = {7, 9, 20};
+
+    LinkedList<int> list1(arr, ARRAY_SIZE(arr, int));
+    LinkedList<int> list2(list1, 5, 7);
+
+    containersEqual(answer, list2, ARRAY_SIZE(answer, int));
+    EXPECT_EQ(list2.GetSize(), ARRAY_SIZE(answer, int));
+}
+
+TEST(LinkedList, DeleteFirst)
+{
+    int arr[] = {8, 556, 156, 57, 0, 7, 9, 20};
+    int answer[] = {556, 156, 57, 0, 7, 9, 20};
+
+    LinkedList<int> list(arr, ARRAY_SIZE(arr, int));
+    list.Delete(0);
+
+    containersEqual(answer, list, ARRAY_SIZE(answer, int));
+    EXPECT_EQ(list.GetSize(), ARRAY_SIZE(answer, int));
+}
+
+TEST(LinkedList, DeleteLast)
+{
+    int arr[] = {8, 556, 156, 57, 0, 7, 9, 20};
+    int answer[] = {8, 556, 156, 57, 0, 7, 9};
+
+    LinkedList<int> list(arr, ARRAY_SIZE(arr, int));
+    list.Delete(list.GetSize() - 1);
+
+    containersEqual(answer, list, ARRAY_SIZE(answer, int));
+    EXPECT_EQ(list.GetSize(), ARRAY_SIZE(answer, int));
+}
+
+TEST(LinkedList, Delete)
+{
+    int arr[] = {8, 556, 156, 57, 0, 7, 9, 20};
+    int answer[] = {8, 556, 156, 57, 7, 9, 20};
+
+    LinkedList<int> list(arr, ARRAY_SIZE(arr, int));
+    list.Delete(4);
+
+    containersEqual(answer, list, ARRAY_SIZE(answer, int));
+    EXPECT_EQ(list.GetSize(), ARRAY_SIZE(answer, int));
+}
+
+TEST(LinkedList, DeleteZero)
+{
+    LinkedList<int> list;
+    EXPECT_ANY_THROW(list.Delete(0));
+}
+
+TEST(LinkedList, DeleteOne)
+{
+    LinkedList<int> list;
+    list.Append(10);
+    list.Delete(0);
+
+    EXPECT_EQ(list.GetSize(), 0);
 }

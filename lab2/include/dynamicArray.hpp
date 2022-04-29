@@ -1,45 +1,60 @@
 #pragma once
 
+#include <stdexcept>
+
 template <typename T>
 class DynamicArray
 {
 private:
     T *storage;
-    unsigned int size;
+    int size;
 
-    void Init(unsigned int size);
+    void Init(int size);
 
 public:
-    DynamicArray(const T *items, unsigned int size);
-    DynamicArray(unsigned int size);
+    DynamicArray(const T *items, int size);
+    DynamicArray(int size);
     DynamicArray(const DynamicArray<T> &dynamicArray);
+
     ~DynamicArray();
 
-    T &operator[](unsigned int index);
-    unsigned int GetSize() const;
-    void Resize(unsigned int newSize);
+    T &operator[](int index);
+
+    int GetSize() const;
+    void Resize(int newSize);
 };
 
 #pragma region constructors and destructors
 template <typename T>
-void DynamicArray<T>::Init(unsigned int size)
+void DynamicArray<T>::Init(int size)
 {
+    if (size == 0)
+    {
+        this->size = 0;
+        return;
+    }
+
+    if (size < 0)
+    {
+        throw std::bad_array_new_length();
+    }
+
     this->size = size;
     storage = new T[size];
 }
 
 template <typename T>
-DynamicArray<T>::DynamicArray(const T *items, unsigned int size)
+DynamicArray<T>::DynamicArray(const T *items, int size)
 {
     Init(size);
-    for (unsigned int i = 0; i < size; i++)
+    for (int i = 0; i < size; i++)
     {
         storage[i] = items[i];
     }
 }
 
 template <typename T>
-DynamicArray<T>::DynamicArray(unsigned int size)
+DynamicArray<T>::DynamicArray(int size)
 {
     Init(size);
 }
@@ -48,7 +63,7 @@ template <typename T>
 DynamicArray<T>::DynamicArray(const DynamicArray<T> &dynamicArray)
 {
     Init(dynamicArray.GetSize());
-    for (unsigned int i = 0; i < dynamicArray.GetSize(); i++)
+    for (int i = 0; i < dynamicArray.GetSize(); i++)
     {
         storage[i] = dynamicArray.storage[i];
     }
@@ -57,34 +72,58 @@ DynamicArray<T>::DynamicArray(const DynamicArray<T> &dynamicArray)
 template <typename T>
 DynamicArray<T>::~DynamicArray()
 {
-    delete[] storage;
+    Resize(0);
 }
 #pragma endregion constructors and destructors
 
 template <typename T>
-T &DynamicArray<T>::operator[](unsigned int index)
+T &DynamicArray<T>::operator[](int index)
 {
+    if (index < 0 || index >= size)
+    {
+        throw std::out_of_range("index is out of range" );
+    }
     return storage[index];
 }
 
 template <typename T>
-unsigned int DynamicArray<T>::GetSize() const
+int DynamicArray<T>::GetSize() const
 {
     return size;
 }
 
 template <typename T>
-void DynamicArray<T>::Resize(unsigned int newSize)
+void DynamicArray<T>::Resize(int newSize)
 {
+    if (newSize == 0)
+    {
+        if (size != 0) 
+        {
+            delete[] storage;
+        }
+
+        size = 0;
+        return;
+    }
+
+    if (newSize < 0)
+    {
+        throw std::bad_array_new_length();
+    }
+
     T *tempStorage = new T[newSize];
 
-    for (unsigned int i = 0; i < newSize; i++)
+    int minSize = size < newSize ? size : newSize;
+    for (int i = 0; i < minSize; i++)
     {
         tempStorage[i] = storage[i];
     }
 
-    delete[] storage;
-    storage = tempStorage;
+    if (size != 0)
+    {
+        delete[] storage;
+    }
 
+    storage = tempStorage;
     size = newSize;
 }

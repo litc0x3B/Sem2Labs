@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 
 #include "linkedListTest.hpp"
+#include "sequence/linkedListSequenceTest.hpp"
+#include "sequence/dynamicArraySequenceTest.hpp"
 
 int main()
 {
