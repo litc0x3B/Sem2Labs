@@ -3,6 +3,7 @@
 #include "linkedListTest.hpp"
 #include "sequence/linkedListSequenceTest.hpp"
 #include "sequence/dynamicArraySequenceTest.hpp"
+#include "myStackTest.hpp"
 
 int main()
 {

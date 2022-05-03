@@ -4,8 +4,8 @@
 
 #define ARRAY_SIZE(array, type) sizeof(array) / sizeof(type)
 
-const int testArr[] = {0, 1, 2, 3, 4, 5, 6, 7};
-const int testArrSize = ARRAY_SIZE(testArr, int);
+const int TEST_ARR[] = {0, 1, 2, 3, 4, 5, 6, 7};
+const int TEST_ARR_SIZE = ARRAY_SIZE(TEST_ARR, int);
 
 template <typename T>
 std::stringstream containerToStream(T &container, int size)
@@ -45,7 +45,7 @@ void containersEqual(T1 &container1, T2 &container2, int size)
        errorStream << "Expected equality of these values:" << std::endl;
        errorStream << "\t" << containerToStream(container1, size).rdbuf() << std::endl;
        errorStream << "\t" << containerToStream(container2, size).rdbuf() << std::endl;
-       FAIL() << errorStream.rdbuf();
+       ADD_FAILURE() << errorStream.rdbuf();
    }
 }
 

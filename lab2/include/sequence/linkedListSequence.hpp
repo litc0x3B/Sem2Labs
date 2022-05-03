@@ -11,7 +11,7 @@ private:
 public:
     LinkedListSequence(const T* items, int count);
     LinkedListSequence();
-    LinkedListSequence(const LinkedListSequence <T>& list);
+    LinkedListSequence(const LinkedListSequence <T> &list);
     ~LinkedListSequence();
 
     T &GetFirst() override;
@@ -28,6 +28,7 @@ public:
     void Delete(int index) override; 
     void InsertAt(T item, int index) override;
 
+    Sequence<T> *Where(const std::function<bool(T)> &func) const override;
     Sequence<T> *Concat(Sequence <T> *list) const override;
     Sequence<T> *GetSubsequence(int startIndex, int endIndex) const override;
 };
@@ -148,6 +149,23 @@ Sequence<T> *LinkedListSequence<T>::GetSubsequence(int startIndex, int endIndex)
     newList->list = new LinkedList<T>(*this->list, startIndex, endIndex);
     return (Sequence<T>*)newList;
 }
+
+template<typename T>
+Sequence<T> *LinkedListSequence<T>::Where(const std::function<bool(T)> &func) const
+{
+    LinkedListSequence *newList = new LinkedListSequence<T>;
+
+    for (int i = 0; i < this->GetSize(); i++)
+    {
+        if (func(this->operator[](i)))
+        {
+            newList->Append(this->operator[](i));
+        }
+    }
+
+    return newList;
+}
+
 
 
 

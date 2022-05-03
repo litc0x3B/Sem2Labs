@@ -14,18 +14,18 @@ TEST(dynamicArraySequenceTest, defaultConstructor)
 
 TEST(dynamicArraySequenceTest, constructorFromArray)
 {
-    Sequence<int> *array = new DynamicArraySequence<int>(testArr, testArrSize);
-    containersEqual(*array, testArr, testArrSize);
-    ASSERT_EQ(array->GetSize(), testArrSize);
+    Sequence<int> *array = new DynamicArraySequence<int>(TEST_ARR, TEST_ARR_SIZE);
+    containersEqual(*array, TEST_ARR, TEST_ARR_SIZE);
+    ASSERT_EQ(array->GetSize(), TEST_ARR_SIZE);
     delete array;
 }
 
 TEST(dynamicArraySequenceTest, constructorCopy)
 {
-    Sequence<int> *array1 = new DynamicArraySequence<int>(testArr, testArrSize);
+    Sequence<int> *array1 = new DynamicArraySequence<int>(TEST_ARR, TEST_ARR_SIZE);
     Sequence<int> *array2 = new DynamicArraySequence<int>(*(DynamicArraySequence<int>*)array1);
 
-    containersEqual(*array1, *array2, testArrSize);
+    containersEqual(*array1, *array2, TEST_ARR_SIZE);
     ASSERT_EQ(array1->GetSize(), array2->GetSize());
 
     delete array1;
@@ -52,7 +52,7 @@ TEST(dynamicArraySequenceTest, GetLastZeroSize)
 
 TEST(dynamicArraySequenceTest, GetLast)
 {
-    Sequence<int> *array = new DynamicArraySequence<int>(testArr, testArrSize);
+    Sequence<int> *array = new DynamicArraySequence<int>(TEST_ARR, TEST_ARR_SIZE);
     EXPECT_EQ(array->GetLast(), 7);
     delete array;
 }
@@ -66,57 +66,57 @@ TEST(dynamicArraySequenceTest, GetFirstZeroSize)
 
 TEST(dynamicArraySequenceTest, GetFirst)
 {
-    Sequence<int> *array = new DynamicArraySequence<int>(testArr, testArrSize);
+    Sequence<int> *array = new DynamicArraySequence<int>(TEST_ARR, TEST_ARR_SIZE);
     EXPECT_EQ(array->GetFirst(), 0);
     delete array;
 }
 
 TEST(dynamicArraySequenceTest, bracketsOperator)
 {
-    Sequence<int> *array = new DynamicArraySequence<int>(testArr, testArrSize);
+    Sequence<int> *array = new DynamicArraySequence<int>(TEST_ARR, TEST_ARR_SIZE);
     EXPECT_EQ(array->operator[](3), 3);
     delete array;
 }
 
 TEST(dynamicArraySequenceTest, bracketsOperatorException1)
 {
-    Sequence<int> *array = new DynamicArraySequence<int>(testArr, testArrSize);
+    Sequence<int> *array = new DynamicArraySequence<int>(TEST_ARR, TEST_ARR_SIZE);
     EXPECT_ANY_THROW(array->operator[](8));
     delete array;
 }
 
 TEST(dynamicArraySequenceTest, bracketsOperatorException2)
 {
-    Sequence<int> *array = new DynamicArraySequence<int>(testArr, testArrSize);
+    Sequence<int> *array = new DynamicArraySequence<int>(TEST_ARR, TEST_ARR_SIZE);
     EXPECT_ANY_THROW(array->operator[](-1));
     delete array;
 }
 
 TEST(dynamicArraySequenceTest, append1)
 {
-    Sequence<int> *array = new DynamicArraySequence<int>(testArr, testArrSize);
+    Sequence<int> *array = new DynamicArraySequence<int>(TEST_ARR, TEST_ARR_SIZE);
     int expect[] = {0, 1, 2, 3, 4, 5, 6, 7, 8};
 
     array->Append(8);
 
-    containersEqual(*array, expect, testArrSize + 1);
-    EXPECT_EQ(array->GetSize(), testArrSize + 1);
-    EXPECT_EQ(array->GetActualSize(), testArrSize * 2);
+    containersEqual(*array, expect, TEST_ARR_SIZE + 1);
+    EXPECT_EQ(array->GetSize(), TEST_ARR_SIZE + 1);
+    EXPECT_EQ(array->GetActualSize(), TEST_ARR_SIZE * 2);
 
     delete array;
 }
 
 TEST(dynamicArraySequenceTest, append2)
 {
-    Sequence<int> *array = new DynamicArraySequence<int>(testArr, testArrSize);
+    Sequence<int> *array = new DynamicArraySequence<int>(TEST_ARR, TEST_ARR_SIZE);
     int expect[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
     array->Append(8);
     array->Append(9);
 
-    containersEqual(*array, expect, testArrSize + 2);
-    EXPECT_EQ(array->GetSize(), testArrSize + 2);
-    EXPECT_EQ(array->GetActualSize(), testArrSize * 2);
+    containersEqual(*array, expect, TEST_ARR_SIZE + 2);
+    EXPECT_EQ(array->GetSize(), TEST_ARR_SIZE + 2);
+    EXPECT_EQ(array->GetActualSize(), TEST_ARR_SIZE * 2);
 
     delete array;
 }
@@ -135,29 +135,29 @@ TEST(dynamicArraySequenceTest, appendZeroSize)
 
 TEST(dynamicArraySequenceTest, prepend1)
 {
-    Sequence<int> *array = new DynamicArraySequence<int>(testArr, testArrSize);
+    Sequence<int> *array = new DynamicArraySequence<int>(TEST_ARR, TEST_ARR_SIZE);
     int expect[] = {-1, 0, 1, 2, 3, 4, 5, 6, 7};
 
     array->Prepend(-1);
 
-    containersEqual(*array, expect, testArrSize + 1);
-    EXPECT_EQ(array->GetSize(), testArrSize + 1);
-    EXPECT_EQ(array->GetActualSize(), testArrSize * 2);
+    containersEqual(*array, expect, TEST_ARR_SIZE + 1);
+    EXPECT_EQ(array->GetSize(), TEST_ARR_SIZE + 1);
+    EXPECT_EQ(array->GetActualSize(), TEST_ARR_SIZE * 2);
 
     delete array;
 }
 
 TEST(dynamicArraySequenceTest, prepend2)
 {
-    Sequence<int> *array = new DynamicArraySequence<int>(testArr, testArrSize);
+    Sequence<int> *array = new DynamicArraySequence<int>(TEST_ARR, TEST_ARR_SIZE);
     int expect[] = {-2, -1, 0, 1, 2, 3, 4, 5, 6, 7};
 
     array->Prepend(-1);
     array->Prepend(-2);
 
-    containersEqual(*array, expect, testArrSize + 2);
-    EXPECT_EQ(array->GetSize(), testArrSize + 2);
-    EXPECT_EQ(array->GetActualSize(), testArrSize * 2);
+    containersEqual(*array, expect, TEST_ARR_SIZE + 2);
+    EXPECT_EQ(array->GetSize(), TEST_ARR_SIZE + 2);
+    EXPECT_EQ(array->GetActualSize(), TEST_ARR_SIZE * 2);
 
     delete array;
 }
@@ -176,50 +176,50 @@ TEST(dynamicArraySequenceTest, prependZeroSize)
 
 TEST(dynamicArraySequenceTest, insertAt1)
 {
-    Sequence<int> *array = new DynamicArraySequence<int>(testArr, testArrSize);
+    Sequence<int> *array = new DynamicArraySequence<int>(TEST_ARR, TEST_ARR_SIZE);
     int expect[] = {0, 1, 2, 10, 3,4, 5, 6, 7};
 
     array->InsertAt(10, 3);
 
-    containersEqual(*array, expect, testArrSize + 1);
-    EXPECT_EQ(array->GetSize(), testArrSize + 1);
-    EXPECT_EQ(array->GetActualSize(), testArrSize * 2);
+    containersEqual(*array, expect, TEST_ARR_SIZE + 1);
+    EXPECT_EQ(array->GetSize(), TEST_ARR_SIZE + 1);
+    EXPECT_EQ(array->GetActualSize(), TEST_ARR_SIZE * 2);
 
     delete array;
 }
 
 TEST(dynamicArraySequenceTest, insertAt2)
 {
-    Sequence<int> *array = new DynamicArraySequence<int>(testArr, testArrSize);
+    Sequence<int> *array = new DynamicArraySequence<int>(TEST_ARR, TEST_ARR_SIZE);
     int expect[] = {0, 1, 2, 10, 20, 3,4, 5, 6, 7};
 
     array->InsertAt(10, 3);
     array->InsertAt(20, 4);
 
-    containersEqual(*array, expect, testArrSize + 2);
-    EXPECT_EQ(array->GetSize(), testArrSize + 2);
-    EXPECT_EQ(array->GetActualSize(), testArrSize * 2);
+    containersEqual(*array, expect, TEST_ARR_SIZE + 2);
+    EXPECT_EQ(array->GetSize(), TEST_ARR_SIZE + 2);
+    EXPECT_EQ(array->GetActualSize(), TEST_ARR_SIZE * 2);
 
     delete array;
 }
 
 TEST(dynamicArraySequenceTest, popBack)
 {
-    Sequence<int> *array = new DynamicArraySequence<int>(testArr, testArrSize);
+    Sequence<int> *array = new DynamicArraySequence<int>(TEST_ARR, TEST_ARR_SIZE);
     int expect[] = {0, 1, 2, 3,4, 5, 6};
 
     array->PopBack();
 
-    containersEqual(*array, expect, testArrSize - 1);
-    EXPECT_EQ(array->GetSize(), testArrSize - 1);
-    EXPECT_EQ(array->GetActualSize(), testArrSize);
+    containersEqual(*array, expect, TEST_ARR_SIZE - 1);
+    EXPECT_EQ(array->GetSize(), TEST_ARR_SIZE - 1);
+    EXPECT_EQ(array->GetActualSize(), TEST_ARR_SIZE);
 
     delete array;
 }
 
 TEST(dynamicArraySequenceTest, popBack2)
 {
-    Sequence<int> *array = new DynamicArraySequence<int>(testArr, testArrSize);
+    Sequence<int> *array = new DynamicArraySequence<int>(TEST_ARR, TEST_ARR_SIZE);
     int expect[] = {0, 1, 2, 3};
     int iterationsCount = 4;
 
@@ -228,9 +228,9 @@ TEST(dynamicArraySequenceTest, popBack2)
         array->PopBack();
     }
 
-    containersEqual(*array, expect, testArrSize - iterationsCount);
-    EXPECT_EQ(array->GetSize(), testArrSize - iterationsCount);
-    EXPECT_EQ(array->GetActualSize(), testArrSize / 2);
+    containersEqual(*array, expect, TEST_ARR_SIZE - iterationsCount);
+    EXPECT_EQ(array->GetSize(), TEST_ARR_SIZE - iterationsCount);
+    EXPECT_EQ(array->GetActualSize(), TEST_ARR_SIZE / 2);
 
     delete array;
 }
@@ -244,21 +244,21 @@ TEST(dynamicArraySequenceTest, popBackZeroSize)
 
 TEST(dynamicArraySequenceTest, popFront1)
 {
-    Sequence<int> *array = new DynamicArraySequence<int>(testArr, testArrSize);
+    Sequence<int> *array = new DynamicArraySequence<int>(TEST_ARR, TEST_ARR_SIZE);
     int expect[] = {1, 2,3,4, 5, 6, 7};
 
     array->PopFront();
 
-    containersEqual(*array, expect, testArrSize - 1);
-    EXPECT_EQ(array->GetSize(), testArrSize - 1);
-    EXPECT_EQ(array->GetActualSize(), testArrSize);
+    containersEqual(*array, expect, TEST_ARR_SIZE - 1);
+    EXPECT_EQ(array->GetSize(), TEST_ARR_SIZE - 1);
+    EXPECT_EQ(array->GetActualSize(), TEST_ARR_SIZE);
 
     delete array;
 }
 
 TEST(dynamicArraySequenceTest, popFront2)
 {
-    Sequence<int> *array = new DynamicArraySequence<int>(testArr, testArrSize);
+    Sequence<int> *array = new DynamicArraySequence<int>(TEST_ARR, TEST_ARR_SIZE);
     int expect[] = {4, 5, 6, 7};
     int iterationsCount = 4;
 
@@ -267,9 +267,9 @@ TEST(dynamicArraySequenceTest, popFront2)
         array->PopFront();
     }
 
-    containersEqual(*array, expect, testArrSize - iterationsCount);
-    EXPECT_EQ(array->GetSize(), testArrSize - iterationsCount);
-    EXPECT_EQ(array->GetActualSize(), testArrSize / 2);
+    containersEqual(*array, expect, TEST_ARR_SIZE - iterationsCount);
+    EXPECT_EQ(array->GetSize(), TEST_ARR_SIZE - iterationsCount);
+    EXPECT_EQ(array->GetActualSize(), TEST_ARR_SIZE / 2);
 
     delete array;
 }
@@ -283,21 +283,21 @@ TEST(dynamicArraySequenceTest, popFrontZeroSize)
 
 TEST(dynamicArraySequenceTest, deleteTest1)
 {
-    Sequence<int> *array = new DynamicArraySequence<int>(testArr, testArrSize);
+    Sequence<int> *array = new DynamicArraySequence<int>(TEST_ARR, TEST_ARR_SIZE);
     int expect[] = {0, 1, 3,4, 5, 6, 7};
 
     array->Delete(2);
 
-    containersEqual(*array, expect, testArrSize - 1);
-    EXPECT_EQ(array->GetSize(), testArrSize - 1);
-    EXPECT_EQ(array->GetActualSize(), testArrSize);
+    containersEqual(*array, expect, TEST_ARR_SIZE - 1);
+    EXPECT_EQ(array->GetSize(), TEST_ARR_SIZE - 1);
+    EXPECT_EQ(array->GetActualSize(), TEST_ARR_SIZE);
 
     delete array;
 }
 
 TEST(dynamicArraySequenceTest, deleteTest2)
 {
-    Sequence<int> *array = new DynamicArraySequence<int>(testArr, testArrSize);
+    Sequence<int> *array = new DynamicArraySequence<int>(TEST_ARR, TEST_ARR_SIZE);
     int expect[] = {0, 1, 6, 7};
 
     int iterationsCount = 4;
@@ -307,23 +307,23 @@ TEST(dynamicArraySequenceTest, deleteTest2)
         array->Delete(2);
     }
 
-    containersEqual(*array, expect, testArrSize - iterationsCount);
-    EXPECT_EQ(array->GetSize(), testArrSize - iterationsCount);
-    EXPECT_EQ(array->GetActualSize(), testArrSize / 2);
+    containersEqual(*array, expect, TEST_ARR_SIZE - iterationsCount);
+    EXPECT_EQ(array->GetSize(), TEST_ARR_SIZE - iterationsCount);
+    EXPECT_EQ(array->GetActualSize(), TEST_ARR_SIZE / 2);
 
     delete array;
 }
 
 TEST(dynamicArraySequenceTest, deleteException1)
 {
-    Sequence<int> *array = new DynamicArraySequence<int>(testArr, testArrSize);
+    Sequence<int> *array = new DynamicArraySequence<int>(TEST_ARR, TEST_ARR_SIZE);
     EXPECT_ANY_THROW(array->Delete(-1));
     delete array;
 }
 
 TEST(dynamicArraySequenceTest, deleteException2)
 {
-    Sequence<int> *array = new DynamicArraySequence<int>(testArr, testArrSize);
+    Sequence<int> *array = new DynamicArraySequence<int>(TEST_ARR, TEST_ARR_SIZE);
     EXPECT_ANY_THROW(array->Delete(8));
     delete array;
 }
@@ -337,8 +337,8 @@ TEST(dynamicArraySequenceTest, concat)
     Sequence<int> *dynamicArray2 = new DynamicArraySequence(arr2, ARRAY_SIZE(arr2, int));
     Sequence<int> *dynamicArray3 = dynamicArray1->Concat(dynamicArray2);
 
-    containersEqual(*dynamicArray3, testArr, testArrSize);
-    EXPECT_EQ(dynamicArray3->GetSize(), testArrSize);
+    containersEqual(*dynamicArray3, TEST_ARR, TEST_ARR_SIZE);
+    EXPECT_EQ(dynamicArray3->GetSize(), TEST_ARR_SIZE);
 
     delete dynamicArray1;
     delete dynamicArray2;
@@ -348,11 +348,11 @@ TEST(dynamicArraySequenceTest, concat)
 TEST(dynamicArraySequenceTest, concatZeroSize1)
 {
     Sequence<int> *dynamicArray1 = new DynamicArraySequence<int>;
-    Sequence<int> *dynamicArray2 = new DynamicArraySequence(testArr, testArrSize);
+    Sequence<int> *dynamicArray2 = new DynamicArraySequence(TEST_ARR, TEST_ARR_SIZE);
     Sequence<int> *dynamicArray3 = dynamicArray1->Concat(dynamicArray2);
 
-    containersEqual(*dynamicArray3, testArr, testArrSize);
-    EXPECT_EQ(dynamicArray3->GetSize(), testArrSize);
+    containersEqual(*dynamicArray3, TEST_ARR, TEST_ARR_SIZE);
+    EXPECT_EQ(dynamicArray3->GetSize(), TEST_ARR_SIZE);
 
     delete dynamicArray1;
     delete dynamicArray2;
@@ -361,12 +361,12 @@ TEST(dynamicArraySequenceTest, concatZeroSize1)
 
 TEST(dynamicArraySequenceTest, concatZeroSize2)
 {
-    Sequence<int> *dynamicArray1 = new DynamicArraySequence(testArr, testArrSize);
+    Sequence<int> *dynamicArray1 = new DynamicArraySequence(TEST_ARR, TEST_ARR_SIZE);
     Sequence<int> *dynamicArray2 = new DynamicArraySequence<int>;
     Sequence<int> *dynamicArray3 = dynamicArray1->Concat(dynamicArray2);
 
-    containersEqual(*dynamicArray3, testArr, testArrSize);
-    EXPECT_EQ(dynamicArray3->GetSize(), testArrSize);
+    containersEqual(*dynamicArray3, TEST_ARR, TEST_ARR_SIZE);
+    EXPECT_EQ(dynamicArray3->GetSize(), TEST_ARR_SIZE);
 
     delete dynamicArray1;
     delete dynamicArray2;
@@ -377,9 +377,12 @@ TEST(dynamicArraySequenceTest, subsequence)
 {
     int expected[] = {2, 3, 4, 5};
 
-    Sequence<int> *array1 = new DynamicArraySequence(testArr, testArrSize);
+    Sequence<int> *array1 = new DynamicArraySequence(TEST_ARR, TEST_ARR_SIZE);
     Sequence<int> *array2 = array1->GetSubsequence(2, 5);
 
     containersEqual(*array2, expected, ARRAY_SIZE(expected, int));
     EXPECT_EQ(array2->GetSize(), ARRAY_SIZE(expected, int));
+
+    delete array1;
+    delete array2;
 }

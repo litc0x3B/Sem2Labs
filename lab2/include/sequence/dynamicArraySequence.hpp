@@ -1,3 +1,4 @@
+#pragma once
 #include "dynamicArray.hpp"
 #include "sequence.hpp"
 #include <ctime>
@@ -33,6 +34,7 @@ public:
     void Delete(int index) override;
     void InsertAt(T item, int index) override;
 
+    Sequence<T> *Where(const std::function<bool(T)> &func) const override;
     Sequence<T> *Concat(Sequence <T> *array) const override;
     Sequence<T> *GetSubsequence(int startIndex, int endIndex) const override;
 };
@@ -47,7 +49,7 @@ template <typename T>
 DynamicArraySequence<T>::DynamicArraySequence()
 {
     this->sequenceType = SequenceType::array;
-    this->array = new DynamicArray<T>(1);
+    this->array = new DynamicArray<T>(0);
     elementsCount = 0;
 }
 
@@ -94,7 +96,11 @@ int DynamicArraySequence<T>::GetActualSize() const
 template <typename T>
 void DynamicArraySequence<T>::Append(T item)
 {
-    if (this->elementsCount >= this->array->GetSize())
+    if (this->elementsCount == 0)
+    {
+        this->array->Resize(1);
+    }
+    else if (this->elementsCount >= this->array->GetSize())
     {
         this->array->Resize(this->array->GetSize() * 2);
     }
@@ -188,7 +194,14 @@ void DynamicArraySequence<T>::InsertAt(T item, int index)
     if (this->elementsCount >= this->array->GetSize())
     {
         DynamicArray<T> *newArr;
-        newArr = new DynamicArray<T>(this->array->GetSize() * 2);
+        if (this->elementsCount != 0)
+        {
+            newArr = new DynamicArray<T>(this->array->GetSize() * 2);
+        }
+        else
+        {
+            newArr = new DynamicArray<T>(1);
+        }
 
         int i = 0;
         for (; i < index; i++)
@@ -277,4 +290,30 @@ Sequence<T> *DynamicArraySequence<T>::GetSubsequence(int startIndex, int endInde
 
     ret->elementsCount = endIndex - startIndex + 1;
     return ret;
+}
+
+template<typename T>
+Sequence<T> *DynamicArraySequence<T>::Where(const std::function<bool(T)> &func) const
+{
+    int counter = 0;
+    for (int i = 0; i < this->GetSize(); i++)
+    {
+        if (func(this->operator[](i)))
+        {
+            counter++;
+        }
+    }
+
+    DynamicArraySequence *newArr = new DynamicArraySequence<T>();
+    newArr->array->Resize(counter);
+
+    for (int i = 0; i < this->GetSize(); i++)
+    {
+        if (func(this->operator[](i)))
+        {
+            newArr->Append(this->operator[](i));
+        }
+    }
+
+    return newArr;
 }
