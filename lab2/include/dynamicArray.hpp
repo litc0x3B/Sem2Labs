@@ -81,7 +81,7 @@ T &DynamicArray<T>::operator[](int index)
 {
     if (index < 0 || index >= size)
     {
-        throw std::out_of_range("index is out of range" );
+        throw std::out_of_range("Index is out of range" );
     }
     return storage[index];
 }

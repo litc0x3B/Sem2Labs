@@ -92,6 +92,8 @@ TEST(linkedListSequenceTest, subsequence)
     Sequence<int> *list = new LinkedListSequence<int>(TEST_ARR, TEST_ARR_SIZE);
     Sequence<int> *subList = list->GetSubsequence(3, 6);
 
+
+
     containersEqual(*subList, answer, ARRAY_SIZE(answer, int));
     EXPECT_EQ(subList->GetSize(), ARRAY_SIZE(answer, int));
     

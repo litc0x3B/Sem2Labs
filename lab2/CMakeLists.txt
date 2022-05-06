@@ -18,6 +18,7 @@ add_executable(tests
         tests/TestHelper.hpp
         tests/linkedListTest.hpp
         tests/myStackTest.hpp
+        tests/mySetTest.hpp
         tests/sequence/linkedListSequenceTest.hpp
         tests/sequence/dynamicArraySequenceTest.hpp)
 

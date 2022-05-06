@@ -43,6 +43,7 @@ template <typename T>
 DynamicArraySequence<T>::~DynamicArraySequence()
 {
     delete array;
+    (*array)[10] = 10;
 }
 
 template <typename T>

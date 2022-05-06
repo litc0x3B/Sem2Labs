@@ -221,7 +221,8 @@ int main() {
         int seqType;
         std::cin >> seqType;
 
-        switch (seqType) {
+        switch (seqType)
+        {
             case 1:
                 sequence = std::unique_ptr<Sequence<int>>(new DynamicArraySequence<int>);
                 break;
@@ -246,28 +247,29 @@ int main() {
 
     Lab2UI::inputSequence(sequence, size);
 
-    while (true) {
+    while (true)
+    {
         Lab2UI::printStarString();
 
         std::cout << "Выберете команду: " << std::endl;
-        std::cout << "1) Map" << std::endl;
-        std::cout << "2) Find" << std::endl;
-        std::cout << "3) Reduce" << std::endl;
-        std::cout << "4) GetFirst" << std::endl;
-        std::cout << "5) GetLast" << std::endl;
-        std::cout << "6) GetSize" << std::endl;
-        std::cout << "7) GetActualSize" << std::endl;
-        std::cout << "8) Append" << std::endl;
-        std::cout << "9) Prepend" << std::endl;
-        std::cout << "10) PopBack" << std::endl;
-        std::cout << "11) PopFront" << std::endl;
-        std::cout << "12) Delete" << std::endl;
-        std::cout << "13) InsertAt" << std::endl;
-        std::cout << "14) Where" << std::endl;
-        std::cout << "15) Concat" << std::endl;
-        std::cout << "16) GetSubsequence" << std::endl;
-        std::cout << "17) Вывод последовательности" << std::endl;
-        std::cout << "18) Выход" << std::endl;
+        std::cout << "1)\tMap" << std::endl;
+        std::cout << "2)\tFind" << std::endl;
+        std::cout << "3)\tReduce" << std::endl;
+        std::cout << "4)\tGetFirst" << std::endl;
+        std::cout << "5)\tGetLast" << std::endl;
+        std::cout << "6)\tGetSize" << std::endl;
+        std::cout << "7)\tGetActualSize" << std::endl;
+        std::cout << "8)\tAppend" << std::endl;
+        std::cout << "9)\tPrepend" << std::endl;
+        std::cout << "10)\tPopBack" << std::endl;
+        std::cout << "11)\tPopFront" << std::endl;
+        std::cout << "12)\tDelete" << std::endl;
+        std::cout << "13)\tInsertAt" << std::endl;
+        std::cout << "14)\tWhere" << std::endl;
+        std::cout << "15)\tConcat" << std::endl;
+        std::cout << "16)\tGetSubsequence" << std::endl;
+        std::cout << "17)\tВывод последовательности" << std::endl;
+        std::cout << "18)\tВыход" << std::endl;
 
         int cmd;
         std::cin >> cmd;
