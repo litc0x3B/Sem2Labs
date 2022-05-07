@@ -36,21 +36,21 @@ public:
 template<class T, template<class> class SequenceType>
 MyStack<T, SequenceType>::MyStack()
 {
-    static_assert(std::is_base_of_v<Sequence<T>, SequenceType<T>>, "SequenceType is not derived from Sequence");
+    static_assert(std::is_base_of<Sequence<T>, SequenceType<T>>(), "SequenceType is not derived from Sequence");
     this->sequence = new SequenceType<T>();
 }
 
 template<class T, template<class> class SequenceType>
 MyStack<T, SequenceType>::MyStack(const T *arr, int size)
 {
-    static_assert(std::is_base_of_v<Sequence<T>, SequenceType<T>>, "SequenceType is not derived from Sequence");
+    static_assert(std::is_base_of<Sequence<T>, SequenceType<T>>(), "SequenceType is not derived from Sequence");
     this->sequence = new SequenceType<T>(arr, size);
 }
 
 template<class T, template<class> class SequenceType>
 MyStack<T, SequenceType>::MyStack(const MyStack<T, SequenceType> &stack)
 {
-    static_assert(std::is_base_of_v<Sequence<T>, SequenceType<T>>, "SequenceType is not derived from Sequence");
+    static_assert(std::is_base_of<Sequence<T>, SequenceType<T>>(), "SequenceType is not derived from Sequence");
     this->sequence = new SequenceType<T>(*(SequenceType<T> *)stack.sequence);
 }
 

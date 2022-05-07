@@ -17,7 +17,6 @@ public:
     DynamicArraySequence();
     DynamicArraySequence(const T* items, int count);
     DynamicArraySequence(const DynamicArraySequence <T>& array);
-
     ~DynamicArraySequence() override;
 
     T &GetFirst() override;
@@ -43,7 +42,6 @@ template <typename T>
 DynamicArraySequence<T>::~DynamicArraySequence()
 {
     delete array;
-    (*array)[10] = 10;
 }
 
 template <typename T>

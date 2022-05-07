@@ -4,10 +4,12 @@
 #include "sequence/linkedListSequenceTest.hpp"
 #include "sequence/dynamicArraySequenceTest.hpp"
 #include "myStackTest.hpp"
+#include "mySetTest.hpp"
 
 int main()
 {
     testing::InitGoogleTest();
     RUN_ALL_TESTS();
     return 0;
+
 }

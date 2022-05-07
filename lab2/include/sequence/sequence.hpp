@@ -1,6 +1,7 @@
 #pragma once
 
 #include <functional>
+#include <stdexcept>
 
 enum SequenceType
     {
@@ -123,7 +124,8 @@ int Sequence<T>::Find(T item, int startIndex) const
         {
             return i;
         }
-    }
 
-    return -1;
+
+    }    return -1;
+
 }

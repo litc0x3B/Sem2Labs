@@ -32,6 +32,10 @@ add_executable(lab2UI
 
 target_link_libraries(tests ${GTEST_LIBRARIES} pthread)
 
+target_compile_features(tests PRIVATE cxx_std_17)
+target_compile_features(lab2UI PRIVATE cxx_std_17)
+
+
 install(TARGETS tests RUNTIME DESTINATION bin)
 install(TARGETS lab2UI RUNTIME DESTINATION bin)
 
