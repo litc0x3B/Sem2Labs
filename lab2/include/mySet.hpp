@@ -1,3 +1,5 @@
+
+#pragma once
 #include "linkedList.hpp"
 #include "sequence/sequence.hpp"
 #include "sequence/dynamicArraySequence.hpp"
@@ -76,7 +78,7 @@ public:
         int index = sequence->Find(element);
         if (index != -1)
         {
-            sequence->Delete(element);
+            sequence->Delete(index);
             return true;
         }
 
@@ -160,6 +162,13 @@ public:
         }
 
         return true;
+    }
+
+    MySet<T, SequenceType> operator=(const MySet<T, SequenceType> &set)
+    {
+        delete[] sequence; 
+        this->sequence = new SequenceType<T>(*set.sequence);
+        return (*this);
     }
 
 };

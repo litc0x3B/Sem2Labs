@@ -1,3 +1,5 @@
+#pragma once
+
 #include "mySet.hpp"
 #include "TestHelper.hpp"
 #include "sequence/dynamicArraySequence.hpp"

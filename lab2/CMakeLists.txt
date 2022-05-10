@@ -6,6 +6,7 @@ project(lab2)
 find_package(GTest REQUIRED)
 
 include_directories(include tests ${GTEST_INCLUDE_DIRS})
+
 add_executable(tests
         src/tests.cpp
         include/dynamicArray.hpp
@@ -30,6 +31,22 @@ add_executable(lab2UI
         include/sequence/linkedListSequence.hpp
         include/sequence/dynamicArraySequence.hpp)
 
+add_executable(lab3UI
+        src/lab3UI/main.cpp
+        src/lab3UI/lab3UI.cpp
+        src/lab3UI/mySetUI.cpp
+        src/lab3UI/myStackUI.cpp
+        include/lab3UI/lab3UI.hpp
+        include/lab3UI/mySetUI.hpp
+        include/lab3UI/myStackUI.hpp
+        include/dynamicArray.hpp
+        include/linkedList.hpp
+        include/myStack.hpp
+        include/mySet.hpp
+        include/sequence/linkedListSequence.hpp
+        include/sequence/sequence.hpp
+        include/sequence/dynamicArraySequence.hpp)
+
 target_link_libraries(tests ${GTEST_LIBRARIES} pthread)
 
 target_compile_features(tests PRIVATE cxx_std_17)
@@ -38,4 +55,16 @@ target_compile_features(lab2UI PRIVATE cxx_std_17)
 
 install(TARGETS tests RUNTIME DESTINATION bin)
 install(TARGETS lab2UI RUNTIME DESTINATION bin)
+
+link_libraries(tests ${GTEST_LIBRARIES} pthread)
+
+target_compile_features(tests PRIVATE cxx_std_17)
+target_compile_features(lab2UI PRIVATE cxx_std_17)
+target_compile_features(lab3UI PRIVATE cxx_std_17)
+
+
+install(TARGETS tests RUNTIME DESTINATION bin)
+install(TARGETS lab2UI RUNTIME DESTINATION bin)
+install(TARGETS lab3UI RUNTIME DESTINATION bin)
+
 
