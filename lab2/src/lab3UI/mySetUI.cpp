@@ -84,7 +84,7 @@ namespace MySetUI
         std::cout << "Вывод людей с именами начинающимися на А (английскую)" << std::endl;
 
         auto start = lab3UI::getNow();
-        auto newSet = set.Where([](Person element) -> bool {return (element.name[0] == 'A');});
+        auto newSet = set.Where([](Person element) -> bool {return  (element.name.length() != 0 && element.name[0] == 'A');});
         lab3UI::elapsedTimeOutput(start);
 
         output(newSet);

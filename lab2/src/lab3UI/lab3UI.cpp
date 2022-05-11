@@ -14,6 +14,12 @@ bool Person::operator!=(Person &person) const
     return !(*this == person);
 }
 
+bool Person::operator>(Person &person) const
+{
+    return this->name > person.name;
+}
+
+
 Person Person::operator+=(const int num)
 {
     id += num;

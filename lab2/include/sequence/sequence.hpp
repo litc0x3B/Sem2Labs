@@ -106,8 +106,13 @@ template<typename T>
 T Sequence<T>::Reduce(const std::function<T(T prev, T current)> &func) const
 {
     T returnValue{};
+    
+    if (this->GetSize() > 0)
+    {
+        returnValue = this->operator[](0);
+    }
 
-    for (int i = 0; i < this->GetSize(); i++)
+    for (int i = 1; i < this->GetSize(); i++)
     {
         returnValue = func(returnValue, this->operator[](i));
     }

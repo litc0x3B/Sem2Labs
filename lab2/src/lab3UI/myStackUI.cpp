@@ -49,26 +49,151 @@ namespace MyStackUI
     }
 
     template <class T, template <class> class SequenceType>
-    void Peek(MyStack<T, SequenceType> & stack)
+    void peek(MyStack<T, SequenceType> & stack)
     {
         lab3UI::printStarString();
-        std::cout << "Вывод: " << stack.Peek() << std::endl;
+        lab3UI::output(stack.Peek());
     }
     
-    template <template <class> class SequenceType>
-    void Reduce(MyStack<float, SequenceType> & stack)
+    template <class T, template <class> class SequenceType>
+    void reduce(MyStack<T, SequenceType> & stack)
     {
         lab3UI::printStarString();
-        std::cout << 
+        std::cout << "Вывод максимального значения" << std::endl
+             << "(для Person лексикографическое сравнение по имени)" << std::endl;
+
+        auto start = lab3UI::getNow();
+        T max = stack.Reduce([](T prev, T cur){return prev > cur ? prev : cur;});
+        lab3UI::elapsedTimeOutput(start);
+        
+        lab3UI::printStarString();
+        lab3UI::output(max);
+    }
+
+    template <class T, template <class> class SequenceType>
+    void find(MyStack<T, SequenceType> & stack)
+    {
+        std::cout << "Введите подпоследовательность: " << std::endl;
+        auto substack = input<T, SequenceType>();
+
+        auto start = lab3UI::getNow();
+        int result = stack.Find(substack);
+        lab3UI::elapsedTimeOutput(start);
+
+        lab3UI::printStarString();
+        std::cout << "Индекс первого вхождения: " << result << std::endl;
+    }
+
+    template <class T, template <class> class SequenceType>
+    void push(MyStack<T, SequenceType> & stack)
+    {
+        T item = lab3UI::input<T>();
+
+        auto start = lab3UI::getNow();
+        stack.Push(item);
+        lab3UI::elapsedTimeOutput(start);
+    }
+
+    template <class T, template <class> class SequenceType>
+    void pop(MyStack<T, SequenceType> & stack)
+    {
+        auto start = lab3UI::getNow();
+        stack.Pop();
+        lab3UI::elapsedTimeOutput(start);
+    }
+
+    template <class T, template <class> class SequenceType>
+    void map(MyStack<T, SequenceType> & stack)
+    {
+        std::cout << "Увеличение каждого числа на 10" << std::endl;
+        std::cout << "(для Person увеличение ID)" << std::endl;
+
+        auto start = lab3UI::getNow();
+        stack.Map([](T &item){item += 10;});
+        lab3UI::elapsedTimeOutput(start);
+    }
+
+    template <class T, template <class> class SequenceType>
+    void where(MyStack<T, SequenceType> & stack)
+    {
+        std::cout << "Составление стека, в котором все числа больше 10-ти" << std::endl;
+
+        auto start = lab3UI::getNow();
+        auto result = stack.Where([](T item){return item > 10;});
+        lab3UI::elapsedTimeOutput(start);
+
+        output(result);
+    }
+
+    template< template<class> class SequenceType>
+    void wherePerson(MyStack<Person, SequenceType> &stack)
+    {
+        std::cout << "Вывод элементов с именами начинающимися на 'A' (английскую)" << std::endl;
+
+        auto start = lab3UI::getNow();
+        auto result = stack.Where([](Person item){return item.name.length() != 0 && item.name[0] == 'A';});
+        lab3UI::elapsedTimeOutput(start);
+
+        output(result);
+    }
+
+    template<> void where<Person, DynamicArraySequence>(MyStack<Person, DynamicArraySequence> & stack)
+    {
+        wherePerson(stack);
+    }
+
+    template<> void where<Person, LinkedListSequence>(MyStack<Person, LinkedListSequence> & stack)
+    {
+        wherePerson(stack);
+    }
+
+    template<class T, template<class> class SequenceType>
+    void getSubsequence(MyStack<T, SequenceType> & stack)
+    {
+        std::cout << "Введите индекс первого элемента (начиная с нуля)" << std::endl;
+        int startIndex;
+        std::cin >> startIndex;
+
+        std::cout << "Введите индекс последнего элемента (начиная с нуля)" << std::endl;
+        int endIndex;
+        std::cin >> endIndex;
+
+        auto start = lab3UI::getNow();
+        auto result = stack.GetSubsequence(startIndex, endIndex);
+        lab3UI::elapsedTimeOutput(start);
+
+        output(result);
+    }
+
+    template<class T, template<class> class SequenceType>
+    void concat(MyStack<T, SequenceType> & stack)
+    {
+        auto inputStack = input<T, SequenceType>();
+
+        auto start = lab3UI::getNow();
+        auto result = stack.Concat(inputStack);
+        lab3UI::elapsedTimeOutput(start);
+
+        output(result);
     }
 
     template <class T, template <class> class SequenceType>
     void menu()
     {
-        
         std::function<void(MyStack<T, SequenceType> &)> funcs[]
         {
-            output<T, SequenceType>
+            output<T, SequenceType>,
+            getSize<T, SequenceType>,
+            isEmpty<T, SequenceType>,
+            peek<T, SequenceType>,
+            reduce<T, SequenceType>,
+            find<T, SequenceType>,
+            push<T, SequenceType>,
+            pop<T, SequenceType>,
+            map<T, SequenceType>,
+            where<T, SequenceType>,
+            getSubsequence<T, SequenceType>,
+            concat<T, SequenceType>
         };
 
         int funcsSize = sizeof(funcs) / sizeof(std::function<void(MyStack<T, SequenceType> &)>);

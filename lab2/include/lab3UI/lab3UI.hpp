@@ -11,6 +11,7 @@ public:
 
     bool operator==(Person &person) const;
     bool operator!=(Person &person) const;
+    bool operator>(Person &person) const;
     Person operator+=(const int num);
 };
 
