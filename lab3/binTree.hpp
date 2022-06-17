@@ -1,20 +1,45 @@
 #pragma once
+#include <cstddef>
 #include <functional>
 #include <stdexcept>
 #include <string>
-
+#include <random>
+#include <iostream>
 
 
 template <class T> struct BinTreeNode 
 {
-    BinTreeNode(T value)
-    {
-        this->value = value;
-    }
 
     BinTreeNode *rightNode = nullptr;
     BinTreeNode *leftNode = nullptr;
+    int size = 1;
     T value;
+
+
+    BinTreeNode(const T &value)
+    {
+
+        this->value = value;
+    }
+
+    //delete later
+    static int level; 
+    void print()
+    {
+        for (int ix = 0; ix < level; ++ix) std::cout << ' ';
+        std::cout << value << std::endl;
+        ++level;
+        if (leftNode)
+        {
+            leftNode->print();
+            --level;
+        }
+        if (rightNode)
+        {
+            rightNode->print();
+            --level;
+        }
+    }
 };
 
 template <class T, class WrappedFuncArg> class HandlerFuncWrapper
@@ -59,16 +84,16 @@ template <class T> class BinTree
 private:
     BinTreeNode<T> *root = nullptr;
     std::function<int(const T&, const T&)> comparer;
-    int size = 0;
 
-    static int Comp(const T &a, const T &b)
+
+    static int _Comp(const T &a, const T &b)
     {  
         if (a > b) return 1;
         if (a < b) return -1;
         return 0;
     }
 
-    static void CheckTraverseOptions(std::string orderOptions)
+    static void _CheckTraverseOptions(std::string orderOptions)
     {
         if
         (
@@ -78,36 +103,116 @@ private:
             orderOptions.find("N") == std::string::npos
         )
         {
-            throw std::invalid_argument("Invalid order options");
+            throw std::invalid_argument("Invalid traverse order options");
         }
     }
 
-    void _Insert(BinTreeNode<T> *curNode, BinTreeNode<T> *newNode) 
+    static int _GetSize(BinTreeNode<T> *node)
     {
-        int comp = comparer(newNode->value, curNode->value);
-        BinTreeNode<T> **nextNode;
-
-        if (comp > 0) 
+        if (node != nullptr)
         {
-            nextNode = &(curNode->rightNode);
-        }
-        else if (comp < 0) 
-        {
-            nextNode = &(curNode->leftNode);
+            return node->size;
         }
         else 
         {
-            return;
+            return 0;
         }
+    }
 
-        if (*nextNode == nullptr)
+    static void _FixSize(BinTreeNode<T> *node)
+    {
+        node->size = _GetSize(node->leftNode) + _GetSize(node->rightNode) + 1;
+    }
+
+
+    static BinTreeNode<T> *_RotateRight(BinTreeNode<T> *rightNode)
+    {
+        BinTreeNode<T> *leftNode = rightNode->leftNode;
+
+        if (leftNode == nullptr)
         {
-            size++;
-            (*nextNode) = newNode;
-            return;
+            return rightNode;
         }
 
-        _Insert(*nextNode, newNode);
+        rightNode->leftNode = leftNode->rightNode;
+        leftNode->rightNode = rightNode;
+
+        leftNode->size = rightNode->size;
+        _FixSize(rightNode);
+
+        return leftNode;
+    }
+
+    static BinTreeNode<T> *_RotateLeft(BinTreeNode<T> *leftNode)
+    {
+        BinTreeNode<T> *rightNode = leftNode->rightNode;
+
+        if (rightNode == nullptr)
+        {
+            return leftNode;
+        }
+
+        leftNode->rightNode = rightNode->leftNode;
+        rightNode->leftNode = leftNode;
+
+        rightNode->size = leftNode->size;
+        _FixSize(leftNode);
+
+        return rightNode;
+    }
+
+    BinTreeNode<T> *_InsertRoot(BinTreeNode<T> *node, const T &value)
+    {
+        if (node == nullptr)
+        {
+            return new BinTreeNode<T>(value);
+        }
+
+        int comp = comparer(value, node->value);
+
+        if (comp > 0)
+        {
+            node->rightNode = _InsertRoot(node->rightNode, value);
+            return _RotateLeft(node);
+        }
+        else if (comp < 0)
+        {
+            node->leftNode = _InsertRoot(node->leftNode, value);
+            return _RotateRight(node);
+        }
+        else
+        {
+            return node;
+        }
+
+    }
+
+    BinTreeNode<T> *_Insert(BinTreeNode<T> *node, const T &value) 
+    {
+        if (node == nullptr)
+        {
+            return new BinTreeNode<T>(value);
+        }
+
+        int randNum = std::rand();
+        if (randNum % (_GetSize(node) + 1) == 0)
+        {
+            return _InsertRoot(node, value);
+        }
+
+        int comp = comparer(value, node->value);
+
+        if (comp > 0)
+        {
+            node->rightNode = _Insert(node->rightNode, value);
+        }
+        else if (comp < 0)
+        {
+            node->leftNode = _Insert(node->leftNode, value);
+        }
+
+        _FixSize(node);
+        return node;
     }
 
     template<class WrappedFuncArg> 
@@ -136,7 +241,7 @@ private:
 
     void _TraverseNodes(const std::function <void(BinTreeNode<T>**)> handlerFunc, BinTreeNode<T> *root, std::string orderOptions = "LNR")
     {
-        CheckTraverseOptions(orderOptions);
+        _CheckTraverseOptions(orderOptions);
         HandlerNodeArg<T> wrapper(handlerFunc);
         _Traverse<BinTreeNode<T>**>(&wrapper, orderOptions, &root);
     }
@@ -154,7 +259,6 @@ private:
         }, "LRN");
 
         root = nullptr;
-        size = 0;
     }
 
     void _InsertFromTree(BinTree<T> &tree)
@@ -203,10 +307,13 @@ private:
         }
     }
 
+   
+
 public:
     explicit BinTree(const std::function <int(const T&, const T&)> &comparer)
     {
         this->comparer = comparer;
+        std::srand(time(NULL));
     }
 
     BinTree(BinTree<T> &&tree)
@@ -233,7 +340,8 @@ public:
 
     BinTree()
     {
-        this->comparer = this->Comp;
+        this->comparer = this->_Comp;
+        std::srand(time(NULL));
     }
 
 
@@ -244,7 +352,7 @@ public:
 
     int GetSize() 
     {
-        return size;
+        return root->size;
     }
 
     bool Search(T item)
@@ -260,7 +368,7 @@ public:
     
     void Traverse(const std::function <void(T&)> &handlerFunc, std::string orderOptions = "LNR")
     {
-        CheckTraverseOptions(orderOptions);
+        _CheckTraverseOptions(orderOptions);
         HandlerValueArg<T> wrapper(handlerFunc);
         _Traverse<T&>(&wrapper, orderOptions, &root);
     }
@@ -294,15 +402,6 @@ public:
 
     void Insert(T item) 
     {
-        BinTreeNode<T> *newNode = new BinTreeNode<T>(item);
-
-        if (root == nullptr) 
-        {
-            size++;
-            root = newNode;
-            return;
-        }
-
-        _Insert(root, newNode);
+        root = _Insert(root, item);
     }
 };
