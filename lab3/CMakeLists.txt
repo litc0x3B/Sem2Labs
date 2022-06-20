@@ -24,6 +24,15 @@ add_executable(
     test_set.hpp
 )
 
+add_executable(
+    main
+    main.cpp
+    binTree.hpp
+    set.hpp
+    priorityQueue.hpp
+    icollection.hpp 
+)
+
 target_link_libraries(
   tests
   gtest_main

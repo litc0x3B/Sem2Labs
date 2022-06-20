@@ -433,11 +433,11 @@ public:
         std::srand(time(NULL));
     }
 
-    explicit BinTree(const std::function<T(std::string&)> &strToItem, std::string str, std::string delim = " ", const std::function <int(const T&, const T&)> &comparer = defaultCompFunc<T>, bool randomlyBalanced = true)
+    explicit BinTree(const std::function<T(const std::string&)> &strToItem, std::string str, std::string delim = " ", const std::function <int(const T&, const T&)> &comparer = defaultCompFunc<T>, bool randomlyBalanced = true)
     {
         this->comparer = comparer;
         this->randomlyBalanced = randomlyBalanced;
-        InsertFromString(strToItem, str, delim);
+        AddFromStr(strToItem, str, delim);
         std::srand(time(NULL));
     }
 
@@ -597,7 +597,7 @@ public:
         *targetNode = newNode;
     }
 
-    std::string ToString(const std::function<std::string(const T&)> &itemToStr = static_cast<std::string(*)(T)>(std::to_string), std::string delim = " ", std::string orderOptions = "LNR") const
+    std::string ToStr(const std::function<std::string(const T&)> &itemToStr, std::string delim, std::string orderOptions) const
     {
         if (root == nullptr)
         {
@@ -609,18 +609,24 @@ public:
         TraverseConst([&str, itemToStr, delim](const T& item)
         {
             str += itemToStr(item) + delim;
-        });
+        }, orderOptions);
 
         str.pop_back();
         return str;
     }
 
-    std::string ToString(std::string delim, std::string orderOptions = "LNR") const
+    std::string ToStr(const std::function<std::string(const T&)> &itemToStr = static_cast<std::string(*)(T)>(std::to_string),
+                     std::string delim = " ") const override
     {
-        return ToString(static_cast<std::string(*)(T)>(std::to_string), delim, orderOptions);
+        return ToStr(itemToStr, delim, "LNR");
     }
 
-    void InsertFromString(const std::function<T(std::string&)> &strToItem, std::string str, std::string delim = " ")
+    std::string ToStr(std::string delim, std::string orderOptions = "LNR") const
+    {
+        return ToStr(static_cast<std::string(*)(T)>(std::to_string), delim, orderOptions);
+    }
+
+    void AddFromStr(const std::function<T(const std::string&)> &strToItem, std::string str, std::string delim = " ") override
     {
         size_t pos;
         while (pos = str.find(delim), pos != std::string::npos)

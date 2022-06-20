@@ -4,7 +4,7 @@
 #include <functional>
 #include <system_error>
 
-template<class T> class Set : ICollection<T>
+template<class T> class Set : public ICollection<T>
 {
 private: 
     BinTree<T> tree;
@@ -18,6 +18,11 @@ public:
     explicit Set(const std::function<T(const std::string&)> &strToItem, const std::string &str, std::string delim = " ", ComparerFunc<T> comparer = defaultCompFunc<T>)
     {
         tree = BinTree<T>(strToItem, str, delim, comparer);
+    }
+
+    Set(const Set<T> &set)
+    {
+        tree = set.tree;
     }
 
     Set<T> operator=(const Set<T> &set)
@@ -36,38 +41,38 @@ public:
     Set<T> Map(const std::function<T(const T& item)> &handlerFunc) const 
     {
         Set<T> newSet(GetComparerFunc());
-        newSet.tree.Map(handlerFunc);
+        newSet.tree = tree.Map(handlerFunc);
         return newSet;
     }
 
     Set<T> *MapC(const std::function<T(const T& item)> &handlerFunc) const override
     {
         auto newSet = new Set<T> (GetComparerFunc());
-        newSet->tree.Map(handlerFunc);
+        newSet->tree = tree.Map(handlerFunc);
         return newSet;
     }
 
     Set<T> Where(const std::function<bool(const T& item)> &handlerFunc) const
     {
         Set<T> newSet(GetComparerFunc());
-        newSet.tree.Where(handlerFunc);
+        newSet.tree = tree.Where(handlerFunc);
         return newSet;
     }
 
     Set<T> *WhereC(const std::function<bool(const T& item)> &handlerFunc) const override
     {
         auto newSet = new Set<T> (GetComparerFunc());
-        newSet->tree.Where(handlerFunc);
+        newSet->tree = tree.Where(handlerFunc);
         return newSet;
     }
 
     T Reduce(const std::function<T(const T&, const T&)> &handlerFunc, T identity) const override {return tree.Reduce(handlerFunc, identity);} 
 
-    void AddFromStr(const std::function<T(const std::string&)> &strToItem, const std::string &str, std::string delim = " ") {tree.InsertFromString(strToItem, str, delim);}
+    void AddFromStr(const std::function<T(const std::string&)> &strToItem, std::string str, std::string delim = " ") override {tree.AddFromStr(strToItem, str, delim);}
 
-    std::string ToStr(const std::function<std::string(const T&)> &itemToStr = static_cast<std::string(*)(T)>(std::to_string), std::string delim = " ") const
+    std::string ToStr(const std::function<std::string(const T&)> &itemToStr = static_cast<std::string(*)(T)>(std::to_string), std::string delim = " ") const override
     {
-        return tree.ToString(itemToStr, delim);
+        return tree.ToStr(itemToStr, delim);
     }
 
     Set<T> Union(const Set &set) const

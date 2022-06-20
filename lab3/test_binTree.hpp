@@ -56,7 +56,7 @@ TEST(BinTreeTest, Search)
 TEST(BinTreeTest, Where)
 {
     auto tree = getTestTree();
-    EXPECT_EQ(tree.Where([](int item){return item <= 3;}).ToString(), "1 2 3");
+    EXPECT_EQ(tree.Where([](int item){return item <= 3;}).ToStr(), "1 2 3");
 }
 
 TEST(BinTreeTest, Map)
@@ -64,7 +64,7 @@ TEST(BinTreeTest, Map)
     auto tree = getTestTree();
     EXPECT_EQ
     (
-        tree.Map([](int item){return item * 10;}).ToString(), 
+        tree.Map([](int item){return item * 10;}).ToStr(), 
         "10 20 30 40 50"
     );
 }
@@ -86,7 +86,7 @@ TEST(BinTreeTest, Remove)
 
     EXPECT_EQ
     (
-        tree.ToString(), 
+        tree.ToStr(), 
         "1 2 4 5"
     );
 }
@@ -97,7 +97,7 @@ TEST(BinTreeTest, GetSubtree)
 
     EXPECT_EQ
     (
-        tree.GetSubtree(13).ToString(), 
+        tree.GetSubtree(13).ToStr(), 
         "11 12 13 14"
     );
 }
