@@ -426,7 +426,7 @@ private:
     }
 
 public:
-    explicit BinTree(const std::function <int(const T&, const T&)> &comparer = defaultCompFunc<T>, bool randomlyBalanced = true)
+    explicit BinTree(const ComparerFunc<T> &comparer = defaultCompFunc<T>, bool randomlyBalanced = true)
     {
         this->comparer = comparer;
         this->randomlyBalanced = randomlyBalanced;
@@ -470,8 +470,8 @@ public:
             throw std::logic_error("Tree is empty");
         }
 
-        BinTreeNode<T> node = _GetMin(root);
-        return node.value;
+        BinTreeNode<T> *node = _GetMin(root);
+        return node->value;
     }
 
     T GetMax()

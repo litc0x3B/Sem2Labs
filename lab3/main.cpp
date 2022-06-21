@@ -2,6 +2,7 @@
 #include "set.hpp"
 #include "priorityQueue.hpp"
 #include "icollection.hpp"
+
 #include <cstdio>
 #include <iostream>
 #include <memory>
@@ -44,6 +45,16 @@ void resultFunc(ICollection<int> *collection)
     std::cout <<  collection->ToStr() << std::endl;
 }
 
+template<>
+void resultFunc(PriorityQueue<int> queue)
+{
+    std::cout << "Результат: ";
+    queue.Map([](int item)
+    {
+        std::cout << item << " " << std::endl;
+        return item;
+    });
+}
 
 void icollectionTest(ICollection<int> *collection)
 {
@@ -136,17 +147,62 @@ void setTest()
     std::cout << "Вычитание" << std::endl;
     resultFunc(set1 - set2);
 
+    std::cout << "Сравнение множетв" << std::endl;
+    std::cout << ( set1 == set2 ? "Они равны" : "Они не равны") << std::endl;
+
+    std::cout << "Является ли множество один подмножеством множества два" << std::endl;
+    std::cout << ( set2.Has(set1) ? "Является" : "Не является") << std::endl;
+
+    std::cout << "Сравнение множетв 1 2 3 и 1 2 3" << std::endl;
+    std::cout << ( Set<int>(toIntFunc, "1 2 3") == Set<int>(toIntFunc, "1 2 3") ? "Они равны" : "Они не равны") << std::endl;
+
+    std::cout << "Является ли множество 2 3 подмножеством множества 1 2 3 4" << std::endl;
+    std::cout << ( set1.Has(Set<int>(toIntFunc, "2 3")) ? "Является" : "Не является") << std::endl;
+    
     pressAnyKey();
 }
 
+void queueTest()
+{
+    PriorityQueue<int> queue;
+
+    std::cout << "Создадим очередь и добавим в неё следующие элементы (число, приоритет)" << std::endl;
+    std::cout << "(30, 3), (10, 1), (50, 5), (40, 4), (20, 2)" << std::endl;
+    queue.Push(30, 3);
+    queue.Push(10, 1);
+    queue.Push(50, 5);
+    queue.Push(40, 4);
+    queue.Push(20,2);
+
+    std::cout << "Посмотрим на элемент с максимальным приоритетом" << std::endl;
+    std::cout << queue.Peek() << std::endl;
+
+    std::cout << "Извлечём элемент с максимальным приоритетом" << std::endl;
+    std::cout << queue.Pop() << std::endl;
+
+    std::cout << "Ещё раз посмотрим на элемент с максимальным приоритетом" << std::endl;
+    std::cout << queue.Peek() << std::endl;
+
+//    std::cout << "Увелечение всех элементов на 1 при помощи Map()" << std::endl;
+//    resultFunc(queue.Map([](int item){return item + 1;}));
+//
+//    std::cout << "получение коллекции с элементами < 5" << std::endl;
+//    resultFunc(queue.Where([](int item){return item < 5;}));
+//
+//    std::cout << "Получение суммы элиментов" << std::endl;
+//    int sum = queue.Reduce([](int prev, int cur){return prev + cur;}, 0);
+//    std::cout << "Результат: " << sum << std::endl;
+}
 
 int main()
 {
     BinTree<int> tree;
     Set<int> set; 
 
-    icollectionTest(&tree);
-    treeTest();
-    icollectionTest(&set);
-    setTest();
+    // icollectionTest(&tree);
+    // treeTest();
+    // icollectionTest(&set);
+    // setTest();
+
+    queueTest();
 }
