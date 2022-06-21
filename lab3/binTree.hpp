@@ -192,7 +192,7 @@ private:
         {
             T newValue = handlerFunc(value);
             tree->Add(newValue);
-        }, "NLR");
+        });
     }
 
     void _Where(BinTree<T> *tree, const std::function<bool(const T&)> &handlerFunc) const
@@ -203,7 +203,7 @@ private:
             {
                 tree->Add(value);
             }
-        }, "NLR");
+        });
     }
 
     BinTreeNode<T> *_Join(BinTreeNode<T> *leftRoot, BinTreeNode<T> *rightRoot) 

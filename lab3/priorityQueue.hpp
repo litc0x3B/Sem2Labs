@@ -29,10 +29,15 @@ public:
         tree = queue.tree;
     }
 
+    PriorityQueue<T> operator=(const PriorityQueue<T>& queue)
+    {
+        tree = queue.tree;
+    }
+
     PriorityQueue<T> Map(const std::function<T(const T& value)> &handlerFunc) const 
     {
         PriorityQueue<T> newQueue;
-        newQueue.tree.Map([handlerFunc](const QueueItem &item)
+        newQueue.tree = tree.Map([handlerFunc](const QueueItem &item)
         {
             QueueItem newItem = {handlerFunc(item.value), item.priority};
             return newItem;
@@ -43,21 +48,22 @@ public:
     PriorityQueue<T> Where(const std::function<bool(const T& value)> &handlerFunc) const
     {
         PriorityQueue<T> newQueue;
-        newQueue.tree.Where([handlerFunc](const QueueItem &item)
-        {
-            QueueItem newItem = {handlerFunc(item.value), item.priority};
-            return newItem;
+        newQueue.tree = tree.Where([handlerFunc](const QueueItem &item)
+        {   
+            return handlerFunc(item.value);
         });
         return newQueue;
     }
 
     T Reduce(const std::function<T(const T&, const T&)> &handlerFunc, T identity) const   
     {
-        return tree.Reduce([handlerFunc](const QueueItem &prevItem, const QueueItem &curItem)
+        QueueItem ret = tree.Reduce([handlerFunc](const QueueItem &prevItem, const QueueItem &curItem)
         {
             QueueItem newItem = {handlerFunc(prevItem.value, curItem.value), 0};
             return newItem;
         }, {identity, 0});
+
+        return ret.value;
     }
 
     T Pop()

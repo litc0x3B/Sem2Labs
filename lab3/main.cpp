@@ -51,9 +51,11 @@ void resultFunc(PriorityQueue<int> queue)
     std::cout << "Результат: ";
     queue.Map([](int item)
     {
-        std::cout << item << " " << std::endl;
+        std::cout << item << " ";
         return item;
     });
+
+    std::cout << std::endl;
 }
 
 void icollectionTest(ICollection<int> *collection)
@@ -84,7 +86,7 @@ void icollectionTest(ICollection<int> *collection)
     std::unique_ptr<ICollection<int>> collectionWhere(collection->WhereC([](int item){return item < 5;}));
     resultFunc(collectionWhere.get());
 
-    std::cout << "Получение суммы элиментов" << std::endl;
+    std::cout << "Получение суммы элементов" << std::endl;
     int sum = collection->Reduce([](int prev, int cur){return prev + cur;}, 0);
     std::cout << "Результат: " << sum << std::endl;
 
@@ -164,6 +166,9 @@ void setTest()
 
 void queueTest()
 {
+    std::cout << "****************************"<< std::endl;
+    std::cout << "Тест очереди с приоритетами:"<< std::endl;
+
     PriorityQueue<int> queue;
 
     std::cout << "Создадим очередь и добавим в неё следующие элементы (число, приоритет)" << std::endl;
@@ -183,26 +188,41 @@ void queueTest()
     std::cout << "Ещё раз посмотрим на элемент с максимальным приоритетом" << std::endl;
     std::cout << queue.Peek() << std::endl;
 
-//    std::cout << "Увелечение всех элементов на 1 при помощи Map()" << std::endl;
-//    resultFunc(queue.Map([](int item){return item + 1;}));
-//
-//    std::cout << "получение коллекции с элементами < 5" << std::endl;
-//    resultFunc(queue.Where([](int item){return item < 5;}));
-//
-//    std::cout << "Получение суммы элиментов" << std::endl;
-//    int sum = queue.Reduce([](int prev, int cur){return prev + cur;}, 0);
-//    std::cout << "Результат: " << sum << std::endl;
+   std::cout << "Увелечение всех элементов на 1 при помощи Map()" << std::endl;
+   resultFunc(queue.Map([](int item){return item + 1;}));
+
+   std::cout << "Получение очереди с элементами < 40" << std::endl;
+   resultFunc(queue.Where([](int item){return item < 40;}));
+
+   std::cout << "Получение суммы элементов" << std::endl;
+   int sum = queue.Reduce([](int prev, int cur){return prev + cur;}, 0);
+   std::cout << "Результат: " << sum << std::endl;
+
+   pressAnyKey();
+}
+
+void treeTestFull()
+{
+    std::cout << "****************************"<< std::endl;
+    std::cout << "Тест бинарого дерева:"<< std::endl;
+    BinTree<int> tree;
+    icollectionTest(&tree);
+    treeTest();
+}
+
+void setTestFull()
+{
+    std::cout << "****************************"<< std::endl;
+    std::cout << "Тест множества:"<< std::endl;
+    Set<int> set; 
+    icollectionTest(&set);
+    setTest();
 }
 
 int main()
 {
-    BinTree<int> tree;
-    Set<int> set; 
-
-    // icollectionTest(&tree);
-    // treeTest();
-    // icollectionTest(&set);
-    // setTest();
-
+    
+    treeTestFull();
+    setTestFull();
     queueTest();
 }
