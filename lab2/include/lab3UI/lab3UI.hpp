@@ -2,6 +2,7 @@
 
 #include <string>
 #include <chrono>
+#include <iostream>
 
 class Person
 {
@@ -21,7 +22,8 @@ namespace lab3UI
     {
         stack = 1,
         set = 2,
-        deque = 3
+        deque = 3,
+        queue = 4
     };
 
     enum DataType
@@ -43,6 +45,36 @@ namespace lab3UI
         SequenceType sequenceType;
     };
 
+    template<typename... Args>
+    int select(std::string message, Args... optionStrings)
+    {
+        bool success = false;
+        int ret;
+
+        do 
+        {
+            std::cout << message << std::endl;
+            for (std::string str : {optionStrings...})
+            {
+                std::cout << str << std::endl;
+            }
+
+            std::cin >> ret;
+
+            if (ret <= sizeof...(Args) && ret >= 1)
+            {
+                success = true;
+            }
+            else 
+            {
+                std::cout << "Неизвестная команда" << std::endl;
+            }
+
+        } while(!success);
+
+        return ret;
+    }
+
     extern bool autoInput;
 
     std::chrono::time_point<std::chrono::steady_clock> getNow();
@@ -52,7 +84,6 @@ namespace lab3UI
     void output(float num);
     void output(Person person);
 
-    int select(std::string message, std::string option1, std::string option2, std::string option3 = "");
     template<class T> T input();
     template<> Person input<Person>();
     

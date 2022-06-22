@@ -141,7 +141,7 @@ namespace MyDequeUI
     template <class T, template <class> class SequenceType>
     void where(MyDeque<T, SequenceType> & deque)
     {
-        std::cout << "Составление стека, в котором все числа больше 10-ти" << std::endl;
+        std::cout << "Составление дека, в котором все числа больше 10-ти" << std::endl;
 
         auto start = lab3UI::getNow();
         auto result = deque.Where([](T item){return item > 10;});

@@ -1,7 +1,7 @@
 #include "lab3UI/lab3UI.hpp"
 #include "lab3UI/myDequeUI.hpp"
 #include "lab3UI/mySetUI.hpp"
-#include "lab3UI/myStackUI.hpp"
+#include "lab3UI/myStackOrQueueUI.hpp"
 
 int main()
 {
@@ -12,7 +12,8 @@ int main()
         "Выберете тип контейнера", 
         "1) Стек", 
         "2) Множество",
-        "3) Дек"
+        "3) Дек",
+        "4) Очередь"
     );
 
     containerInfo.dataType = (lab3UI::DataType)lab3UI::select
@@ -49,9 +50,9 @@ int main()
     {
         MySetUI::initMenu(containerInfo);
     }
-    else if (containerInfo.containerType == lab3UI::ContainerType::stack)
+    else if (containerInfo.containerType == lab3UI::ContainerType::stack || containerInfo.containerType == lab3UI::ContainerType::queue)
     {
-        MyStackUI::initMenu(containerInfo);
+        myStackOrQueueUI::initMenu(containerInfo);
     }
     else if (containerInfo.containerType == lab3UI::ContainerType::deque)
     {
