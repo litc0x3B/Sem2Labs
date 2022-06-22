@@ -1,4 +1,5 @@
 #include "lab3UI/lab3UI.hpp"
+#include "lab3UI/myDequeUI.hpp"
 #include "lab3UI/mySetUI.hpp"
 #include "lab3UI/myStackUI.hpp"
 
@@ -10,7 +11,8 @@ int main()
     (
         "Выберете тип контейнера", 
         "1) Стек", 
-        "2) Множество"
+        "2) Множество",
+        "3) Дек"
     );
 
     containerInfo.dataType = (lab3UI::DataType)lab3UI::select
@@ -50,6 +52,10 @@ int main()
     else if (containerInfo.containerType == lab3UI::ContainerType::stack)
     {
         MyStackUI::initMenu(containerInfo);
+    }
+    else if (containerInfo.containerType == lab3UI::ContainerType::deque)
+    {
+        MyDequeUI::initMenu(containerInfo);
     }
 
     return 0;

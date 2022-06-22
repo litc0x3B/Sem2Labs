@@ -21,6 +21,7 @@ namespace lab3UI
     {
         stack = 1,
         set = 2,
+        deque = 3
     };
 
     enum DataType
@@ -51,7 +52,7 @@ namespace lab3UI
     void output(float num);
     void output(Person person);
 
-    int select(std::string message, std::string option1, std::string option2);
+    int select(std::string message, std::string option1, std::string option2, std::string option3 = "");
     template<class T> T input();
     template<> Person input<Person>();
     

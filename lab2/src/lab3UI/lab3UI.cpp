@@ -1,6 +1,7 @@
 #include <chrono>
 #include <iostream>
 #include <math.h>
+#include <string>
 
 #include "lab3UI/lab3UI.hpp"
 
@@ -51,7 +52,7 @@ void lab3UI::elapsedTimeOutput(std::chrono::time_point<std::chrono::steady_clock
     std::cout << "Затарченное время(µs): " << delta.count() << std::endl;
 }
 
-int lab3UI::select(std::string message, std::string option1, std::string option2)
+int lab3UI::select(std::string message, std::string option1, std::string option2, std::string option3)
 {
     bool success = false;
     int ret;
@@ -60,17 +61,20 @@ int lab3UI::select(std::string message, std::string option1, std::string option2
         std::cout << message << std::endl;
         std::cout << option1 << std::endl;
         std::cout << option2 << std::endl;
+        if (option3 != "")
+        {
+            std::cout << option3 << std::endl;
+        }
 
         std::cin >> ret;
 
-        if (ret <= 2 && ret >= 1)
+        if ((ret <= 2 || option3 != "" && ret <= 3) && ret >= 1 )
         {
             success = true;
         }
         else 
         {
             std::cout << "Неизвестная команда" << std::endl;
-            
         }
 
     } while(!success);

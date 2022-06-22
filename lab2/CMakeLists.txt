@@ -36,12 +36,15 @@ add_executable(lab3UI
         src/lab3UI/lab3UI.cpp
         src/lab3UI/mySetUI.cpp
         src/lab3UI/myStackUI.cpp
+        src/lab3UI/myDequeUI.cpp
         include/lab3UI/lab3UI.hpp
         include/lab3UI/mySetUI.hpp
         include/lab3UI/myStackUI.hpp
+        include/lab3UI/myDequeUI.hpp
         include/dynamicArray.hpp
         include/linkedList.hpp
         include/myStack.hpp
+        include/myDeque.hpp
         include/mySet.hpp
         include/sequence/linkedListSequence.hpp
         include/sequence/sequence.hpp
