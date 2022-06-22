@@ -8,21 +8,11 @@
 #include <memory>
 #include <ostream>
 #include <string>
-
-void stressTest()
-{
-
-    BinTree<int> tree;
-
-    for (int i = 0; i < 100000; i++)
-    {
-        tree.Add(i);
-    }
-}
+#include <chrono>
 
 void pressAnyKey()
 {
-    std::cout << "Нажмите любую клавишу для продолжения" << std::endl;
+    std::cout << "Нажмите любую клавишу для продолжения..." << std::endl;
     getchar();
 }
 
@@ -56,6 +46,40 @@ void resultFunc(PriorityQueue<int> queue)
     });
 
     std::cout << std::endl;
+}
+
+
+void speedTest()
+{
+    std::cout << "****************************"<< std::endl;
+    std::cout << "Проверка скорости выполнения" << std::endl;
+
+    BinTree<int> tree;
+    int size = 10000000;
+
+    
+    std::cout << "Создание дерева с " << size << " элементами (может занять некторое время)" << std::endl;
+    for (int i = 0; i < size; i++)
+    {
+        tree.Add(i);
+    }
+
+    std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+    tree.Add(size);
+    std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+    std::cout << "Вставка одного элемента заняла " << std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count() << " [ns]" << std::endl;
+
+    begin = std::chrono::steady_clock::now();
+    tree.Search(size);
+    end = std::chrono::steady_clock::now();
+    std::cout << "Поиск одного элемента занял " << std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count() << " [ns]" << std::endl;
+
+    begin = std::chrono::steady_clock::now();
+    tree.Remove(size);
+    end = std::chrono::steady_clock::now();
+    std::cout << "Удаление одного элемента заняло " << std::chrono::duration_cast<std::chrono::nanoseconds>(end - begin).count() << " [ns]" << std::endl;
+
+    pressAnyKey();
 }
 
 void icollectionTest(ICollection<int> *collection)
@@ -188,15 +212,27 @@ void queueTest()
     std::cout << "Ещё раз посмотрим на элемент с максимальным приоритетом" << std::endl;
     std::cout << queue.Peek() << std::endl;
 
-   std::cout << "Увелечение всех элементов на 1 при помощи Map()" << std::endl;
-   resultFunc(queue.Map([](int item){return item + 1;}));
+    std::cout << "Увелечение всех элементов на 1 при помощи Map()" << std::endl;
+    resultFunc(queue.Map([](int item){return item + 1;}));
 
-   std::cout << "Получение очереди с элементами < 40" << std::endl;
-   resultFunc(queue.Where([](int item){return item < 40;}));
+    std::cout << "Получение очереди с элементами < 40" << std::endl;
+    resultFunc(queue.Where([](int item){return item < 40;}));
 
-   std::cout << "Получение суммы элементов" << std::endl;
-   int sum = queue.Reduce([](int prev, int cur){return prev + cur;}, 0);
-   std::cout << "Результат: " << sum << std::endl;
+    std::cout << "Получение суммы элементов" << std::endl;
+    int sum = queue.Reduce([](int prev, int cur){return prev + cur;}, 0);
+    std::cout << "Результат: " << sum << std::endl;
+
+    std::cout << "Поиск на вхождение очереди (30, 3), (40, 4)" << std::endl;
+    PriorityQueue<int> queue1;
+    queue1.Push(30, 3);
+    queue1.Push(40, 4);
+    std::cout << (queue.Search(queue1) ? "Входит" : "Не входит") << std::endl;
+
+    std::cout << "Поиск на вхождение очереди (10, 1), (40, 4)" << std::endl;
+    PriorityQueue<int> queue2;
+    queue2.Push(10, 1);
+    queue2.Push(40, 4);
+    std::cout << (queue.Search(queue2) ? "Входит" : "Не входит") << std::endl;
 
    pressAnyKey();
 }
@@ -220,9 +256,9 @@ void setTestFull()
 }
 
 int main()
-{
-    
-    treeTestFull();
-    setTestFull();
+{    
+    // treeTestFull();
+    // setTestFull();
     queueTest();
+    // speedTest();
 }

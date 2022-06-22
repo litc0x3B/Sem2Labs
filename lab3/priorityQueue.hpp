@@ -66,6 +66,21 @@ public:
         return ret.value;
     }
 
+    bool Search(const PriorityQueue<T>& queue)
+    {
+        bool flag = true;
+
+        queue.tree.TraverseConst([this, &flag](const QueueItem &item)
+        {
+            if (!tree.Search(item))
+            {
+                flag = false;
+            }
+        });
+
+        return flag;
+    }
+
     T Pop()
     {
         QueueItem item = tree.GetMin();
