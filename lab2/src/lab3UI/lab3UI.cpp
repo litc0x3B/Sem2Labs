@@ -20,6 +20,10 @@ bool Person::operator>(Person &person) const
     return this->name > person.name;
 }
 
+bool Person::operator<(Person &person) const
+{
+    return this->name < person.name;
+}
 
 Person Person::operator+=(const int num)
 {

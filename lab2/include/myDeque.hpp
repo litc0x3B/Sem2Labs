@@ -1,5 +1,6 @@
 #pragma once
 #include <functional>
+#include <type_traits>
 #include "sequence/sequence.hpp"
 #include "sequence/linkedListSequence.hpp"
 
@@ -28,6 +29,7 @@ public:
     void PopFront();
     void Map(const std::function<void(T&)> &func);
     void Map(const std::function<void(T&)> &func, int startIndex, int endIndex);
+    void Sort();
 
     MyDeque<T, SequenceType> operator=(const MyDeque<T, SequenceType> &deque);
     T &operator[](int index);
@@ -36,6 +38,23 @@ public:
     MyDeque<T, SequenceType> GetSubsequence(int startIndex, int endIndex) const;
     MyDeque<T, SequenceType> Concat(const MyDeque<T, SequenceType> &deque) const;
 };
+
+template<class T, template<class> class SequenceType>
+void MyDeque<T, SequenceType>::Sort()
+{
+    for (int i = 0; i < GetSize() - 1; i++)
+    {
+        for (int j = 0; j < GetSize() - 1 - i; j++)
+        {
+            if (sequence->operator[](j) > sequence->operator[](j + 1))
+            {
+                T temp = sequence->operator[](j);
+                sequence->operator[](j) = sequence->operator[](j + 1);
+                sequence->operator[](j + 1) = temp;
+            }
+        }
+    }
+}
 
 template<class T, template<class> class SequenceType>
 MyDeque<T, SequenceType>::MyDeque()

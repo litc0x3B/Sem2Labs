@@ -128,6 +128,14 @@ namespace MyDequeUI
     }
 
     template <class T, template <class> class SequenceType>
+    void sort(MyDeque<T, SequenceType> & deque)
+    {
+        auto start = lab3UI::getNow();
+        deque.Sort();
+        lab3UI::elapsedTimeOutput(start);
+    }
+
+    template <class T, template <class> class SequenceType>
     void map(MyDeque<T, SequenceType> & deque)
     {
         std::cout << "Увеличение каждого числа на 10" << std::endl;
@@ -221,7 +229,8 @@ namespace MyDequeUI
             map<T, SequenceType>,
             where<T, SequenceType>,
             getSubsequence<T, SequenceType>,
-            concat<T, SequenceType>
+            concat<T, SequenceType>,
+            sort<T, SequenceType>
         };
 
         int funcsSize = sizeof(funcs) / sizeof(std::function<void(MyDeque<T, SequenceType> &)>);
@@ -247,8 +256,9 @@ namespace MyDequeUI
             std::cout << "13)\tWhere" << std::endl;
             std::cout << "14)\tGetSubsequence" << std::endl;
             std::cout << "15)\tConcat" << std::endl;
-            std::cout << "16)\t" << (lab3UI::autoInput ? "Выключить автоввод" : "Включить автоввод") << std::endl;
-            std::cout << "17)\tВыход" << std::endl;
+            std::cout << "16)\tSort" << std::endl;
+            std::cout << "17)\t" << (lab3UI::autoInput ? "Выключить автоввод" : "Включить автоввод") << std::endl;
+            std::cout << "18)\tВыход" << std::endl;
     
             int cmd;
             std::cin >> cmd;
@@ -257,11 +267,11 @@ namespace MyDequeUI
             {
                 funcs[cmd - 1](deque);
             }
-            else if(cmd == 16)
+            else if(cmd == 17)
             {
                 lab3UI::autoInput = !lab3UI::autoInput;
             }
-            else if(cmd == 17)
+            else if(cmd == 18)
             {
                 return;
             }
